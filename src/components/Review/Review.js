@@ -6,24 +6,33 @@ import { getDatabaseCart, processOrder, removeFromDatabaseCart } from '../../uti
 import Cart from '../Cart/Cart';
 import ReviewItem from '../ReviewItem/ReviewItem';
 import happyImage from '../../images/giphy.gif';
-
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    useRouteMatch,
+    useParams
+} from "react-router-dom";
+import OrderDone from '../OrderDone/OrderDone';
 const Review = () => {
+
+    let match = useRouteMatch();
 
     const [cart, setCart] = useState([])
 
-    const [orderPlace,setOrderPlace] = useState(false);
+    const [orderPlace, setOrderPlace] = useState(false);
 
     useEffect(() => {
 
     })
 
-    const removeProduct=(productKey)=>{
+    const removeProduct = (productKey) => {
 
-       const newCart=cart.filter(pd=> pd.key!=productKey);
+        const newCart = cart.filter(pd => pd.key != productKey);
 
-       setCart(newCart);
+        setCart(newCart);
 
-       removeFromDatabaseCart(productKey)
+        removeFromDatabaseCart(productKey)
 
     }
     useEffect(() => {
@@ -46,9 +55,9 @@ const Review = () => {
 
     }, [])
 
-    const placeOrder=()=> {
+    const placeOrder = () => {
 
-        
+
         setCart([]);
 
         processOrder();
@@ -59,33 +68,45 @@ const Review = () => {
 
     let thankYou;
 
-    if(orderPlace)
-    thankYou=<img  src={happyImage}></img>
+    if (orderPlace) {
+        //thankYou=<img  src={happyImage}></img>
+
+        return <Switch>
+            <Route path={`${match.path}/orderDone`}>
+
+                <OrderDone></OrderDone>
+
+            </Route>
+
+        </Switch>
+    }
 
     return (
-       
-           
+
+
 
         <div className='twin-container'>
-          
-           <div className="product-container">
-           {
-                cart.map(product=><ReviewItem product={product} key={product.key}
-                removeProduct={removeProduct}></ReviewItem>)
-            }
-           </div>
-           {
-               thankYou
-           }
 
-           <div className="cart-container">
-               <Cart cart={cart}>
-               <Link to='/review'>
-                        <button onClick={placeOrder}className='main-button'>Place Your Order</button>
-                </Link>
-               </Cart>
+            <div className="product-container">
+                {
+                    cart.map(product => <ReviewItem product={product} key={product.key}
+                        removeProduct={removeProduct}></ReviewItem>)
+                }
+            </div>
 
-           </div>
+            <div className="cart-container">
+                <Cart cart={cart}>
+                    <Link to={`${match.url}/orderDone`}>
+                        <button onClick={placeOrder} className='main-button'>Place Your Order</button>
+                    </Link>
+                </Cart>
+
+            </div>
+
+
+
+
+
         </div>
     );
 };

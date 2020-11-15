@@ -5,6 +5,7 @@ import Shop from './components/Shop/Shop';
 import Review from './components/Review/Review';
 import Inventory from './components/Inventory/Inventory';
 import NotFound from './components/NotFound/NotFound';
+import OrderDone from './components/OrderDone/OrderDone';
 import ProductDetails from './components/ProductDetails/ProductDetails';
 import {
   BrowserRouter as Router,
@@ -39,6 +40,7 @@ function App() {
             <Inventory></Inventory>
 
           </Route>
+      
           <Route exact path="/">
 
             <Shop></Shop>
@@ -48,12 +50,12 @@ function App() {
 
             <ProductDetails></ProductDetails>
           </Route>
-         
+
 
           <Route path="*">
 
             <NotFound></NotFound>
-            
+
 
           </Route>
 
