@@ -1,6 +1,6 @@
 import { prod, prodDependencies } from 'mathjs';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import fakeData from '../../fakeData';
 import { getDatabaseCart, processOrder, removeFromDatabaseCart } from '../../utilities/databaseManager';
 import Cart from '../Cart/Cart';
@@ -17,6 +17,8 @@ import OrderDone from '../OrderDone/OrderDone';
 const Review = () => {
 
     let match = useRouteMatch();
+
+    const history = useHistory();
 
     const [cart, setCart] = useState([])
 
@@ -55,14 +57,10 @@ const Review = () => {
 
     }, [])
 
-    const placeOrder = () => {
+    const handleProceedCheckout = () => {
 
 
-        setCart([]);
-
-        processOrder();
-
-        setOrderPlace(true)
+        history.push('/shipment')
 
     }
 
@@ -96,9 +94,9 @@ const Review = () => {
 
             <div className="cart-container">
                 <Cart cart={cart}>
-                    <Link to={`${match.url}/orderDone`}>
-                        <button onClick={placeOrder} className='main-button'>Place Your Order</button>
-                    </Link>
+                   
+                        <button onClick={handleProceedCheckout} className='main-button'>Proceed Checkout</button>
+                  
                 </Cart>
 
             </div>
